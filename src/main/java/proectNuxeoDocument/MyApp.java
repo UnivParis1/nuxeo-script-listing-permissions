@@ -7,9 +7,9 @@ import java.util.List;
 import org.nuxeo.client.NuxeoClient;
 import org.nuxeo.client.objects.Documents;
 import org.nuxeo.client.objects.Repository;
+import org.nuxeo.client.objects.acl.ACE;
+import org.nuxeo.client.objects.acl.ACL;
 import org.nuxeo.client.objects.acl.ACP;
-
-import com.sun.mail.imap.ACL;
 
 import org.nuxeo.client.objects.Document;
 
@@ -40,9 +40,9 @@ public class MyApp {
 		Document document = repository.fetchDocumentByPath("/default-domain/workspaces/Espaces%20collaboratifs/Espace%20de%20test");
 		String title = document.getPropertyValue("dc:title"); // equals to folder
 		System.out.println("Documents : "+title);
-		
+
 		displayPermission(document);
-		
+
 
 	}
 
@@ -58,54 +58,34 @@ public class MyApp {
 
 		for(Document d : childrenList )  displayPermission(d);
 
-       
+
 		Document docParent = repository.fetchDocumentById(doc.getParentRef());
-		  ACP acpParent = docParent.fetchPermissions();
-		  ACP acpDoc = doc.fetchPermissions();
-		  
-		  List<org.nuxeo.client.objects.acl.ACL> aclParentList=acpParent.getAcls();
-		  List<org.nuxeo.client.objects.acl.ACL> aclDocList=acpDoc.getAcls();
-		  //Collections.sort(aclParentList);
-		  //Collections.sort(aclDocList);
-		  
-			if(!acpParent.getAcls().equals(acpDoc.getAcls())) {
-				
-				//for(){
-        
-				System.out.println( doc.getTitle()+"," +doc.getId()+","+acpDoc.getAcls()+acpParent.getAcls());
-             
+		ACP acpParent = docParent.fetchPermissions();
+		ACP acpDoc = doc.fetchPermissions();
+
+		//ACP acpParent = repository.getgetACP(doc.getParentRef());
+
+
+		List<org.nuxeo.client.objects.acl.ACL> aclParentList=acpParent.getAcls();
+		List<org.nuxeo.client.objects.acl.ACL> aclDocList=acpDoc.getAcls();
+
+		for(ACL aclParent : aclParentList) {
+
+			for(ACL aclDoc : aclDocList) {
+
+				//System.out.println( "Document Parent : "+aclParent.getAces().get(0).getPermission()+","+aclParent.getAces().get(0).getUsername()+","+aclParent.getAces().get(0).getStatus());
+				//System.out.println( "Document child : "+doc.getTitle()+" : "+aclDoc.getAces().get(0).getPermission()+","+aclDoc.getAces().get(0).getUsername()+","+aclDoc.getAces().get(0).getStatus());
+				//if(!acpParent.getAcls().equals(acpDoc.getAcls())) {
+				if(!aclParent.getName().equals(aclDoc.getName())) {
+					//System.out.println( aclDoc.getName()+","+aclParent.getName());
+					
+					System.out.println( doc.getTitle()+"," +doc.getId()+","+aclDoc.getAces().get(0).getPermission()+","+aclDoc.getAces().get(0).getUsername()+","+aclParent.getAces().get(0).getPermission()+","+aclParent.getAces().get(0).getUsername());
+
+				}
 
 			}
 
-			
-
 		}
-
-
-
-
-	//	public static List<Document> fetchChildren(Document folder) {
-	//		
-	//		Documents children = repository.fetchChildrenById(folder.getId());
-	//		List<Document> childrenList = children.getEntries();
-	//        
-	//        return childrenList;
-	//    }
-
-	protected boolean PermissionInheritanceblocked(Document doc) {
-
-
-		ACP acp = doc.fetchPermissions();
-
-
-		//		if(acp.getAcls().get.equals(acp.getAcls())) {
-		//			
-		//			System.out.println("permission : "+acpChild.getAcls().get(0).getName());
-		//			
-		//			
-		//		}
-
-		return false;
 	}
 
 
