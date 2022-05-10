@@ -30,14 +30,14 @@ public class MyApp {
 
 	public static void main(String[] args) {
 
-		System.out.println("Début traitement");
+		//System.out.println("Début traitement");
 
 		//		Documents documents = nuxeoClient.repository().query("SELECT * FROM Document WHERE dc:created BETWEEN DATE '2022-01-21' AND DATE '2022-02-23'");
 		//
 		//		System.out.println("Documents : "+documents.getCurrentPageSize());
 
 
-		Document document = repository.fetchDocumentByPath("/default-domain/workspaces/Espaces%20collaboratifs/Espace%20de%20test");
+		Document document = repository.fetchDocumentByPath("/default-domain/workspaces/Espaces%20collaboratifs/DossierTest");
 		String title = document.getPropertyValue("dc:title"); // equals to folder
 		System.out.println("Documents : "+title);
 
@@ -45,9 +45,6 @@ public class MyApp {
 
 
 	}
-
-
-
 
 	public static void displayPermission(Document doc) {
 
@@ -76,12 +73,13 @@ public class MyApp {
 				//System.out.println( "Document Parent : "+aclParent.getAces().get(0).getPermission()+","+aclParent.getAces().get(0).getUsername()+","+aclParent.getAces().get(0).getStatus());
 				//System.out.println( "Document child : "+doc.getTitle()+" : "+aclDoc.getAces().get(0).getPermission()+","+aclDoc.getAces().get(0).getUsername()+","+aclDoc.getAces().get(0).getStatus());
 				//if(!acpParent.getAcls().equals(acpDoc.getAcls())) {
-				if(!aclParent.getName().equals(aclDoc.getName())) {
+				if(!aclDoc.getName().equals(ACL.INHERITED_ACL)) 
+				
 					//System.out.println( aclDoc.getName()+","+aclParent.getName());
 					
-					System.out.println( doc.getTitle()+"," +doc.getId()+","+aclDoc.getAces().get(0).getPermission()+","+aclDoc.getAces().get(0).getUsername()+","+aclParent.getAces().get(0).getPermission()+","+aclParent.getAces().get(0).getUsername());
+					System.out.println( doc.getTitle()+"," +doc.getId()+","+aclDoc.getAces().get(0).getUsername()+","+aclDoc.getAces().get(0).getPermission()+","+aclParent.getAces().get(0).getUsername()+","+aclParent.getAces().get(0).getPermission());
 
-				}
+				
 
 			}
 
