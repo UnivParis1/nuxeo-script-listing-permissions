@@ -6,6 +6,7 @@ import java.util.List;
 import org.nuxeo.client.NuxeoClient;
 import org.nuxeo.client.objects.Documents;
 import org.nuxeo.client.objects.Repository;
+import org.nuxeo.client.objects.acl.ACE;
 //import org.nuxeo.client.objects.acl.ACE;
 import org.nuxeo.client.objects.acl.ACL;
 import org.nuxeo.client.objects.acl.ACP;
@@ -49,8 +50,6 @@ public class DisplayNuxeoDocPermission {
 		ACP acpParent = docParent.fetchPermissions();
 		ACP acpDoc = doc.fetchPermissions();
 
-		//ACP acpParent = repository.getgetACP(doc.getParentRef());
-
 
 		List<org.nuxeo.client.objects.acl.ACL> aclParentList=acpParent.getAcls();
 		List<org.nuxeo.client.objects.acl.ACL> aclDocList=acpDoc.getAcls();
@@ -61,12 +60,18 @@ public class DisplayNuxeoDocPermission {
 
 			for(ACL aclDoc : aclDocList) {
 
-				if(!aclDoc.getName().equals(ACL.INHERITED_ACL)) 
+				if(!aclDoc.getName().equals(ACL.INHERITED_ACL)) {
 					
-					System.out.println( doc.getTitle()+"," +doc.getId()+","+aclDoc.getAces().get(0).getPermission()+","+aclDoc.getAces().get(0).getUsername()+","+aclParent.getAces().get(0).getPermission()+","+aclParent.getAces().get(0).getUsername());
-                    
-		
-
+					
+					//System.out.println( doc.getTitle()+"," +doc.getId()+","+aclDoc.getAces().get(0).getPermission()+","+aclDoc.getAces().get(0).getUsername()+","+aaaclParent.getAces().get(0).getPermission()+","+aclParent.getAces().get(0).getUsername());
+				     
+				System.out.println( doc.getTitle()+"," +doc.getId()+",");
+				
+				for (ACE ace : aclDoc.getAces() )  System.out.println("Les permissons du document  : "+ace.getPermission()+"," +ace.getUsername()+",");
+				for (ACE ace : aclParent.getAces() )  System.out.println("Les permissons du doc parent  : "+ ace.getPermission()+"," +ace.getUsername()+",");
+				
+				
+			}
 		}
 		for(Document d : childrenList )  displayPermission(d);
 	}
