@@ -15,24 +15,21 @@ import org.nuxeo.client.objects.Document;
 
 public class DisplayNuxeoDocPermission {
   
-	static String url = "http://nuxeo-as:8080/nuxeo";
-	static String Path = "/default-domain/";
-
-
-	static NuxeoClient nuxeoClient = new NuxeoClient.Builder()
-			.url(url)
-			.authentication("*********", "*********")
-			.schemas("*")
-			.connect();
-
-	static Repository repository = nuxeoClient.repository();
+	static Repository repository;
 
 	public static void main(String[] args) {
 
-		Document document = repository.fetchDocumentByPath("/default-domain/workspaces/Espaces%20administratifs/DSIUN/SIS");
-		String title = document.getPropertyValue("dc:title"); // equals to folder
-		System.out.println("Documents : "+title);
+		NuxeoClient nuxeoClient = new NuxeoClient.Builder()
+				.url(args[0])
+				.authentication("Administrator", args[1])
+				.schemas("*")
+				.connect();
 
+		repository = nuxeoClient.repository();
+
+		Document document = repository.fetchDocumentByPath(args[2]);
+		
+		
 		displayPermission(document);
 
 
