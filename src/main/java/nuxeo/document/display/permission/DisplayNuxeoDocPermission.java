@@ -47,7 +47,7 @@ public class DisplayNuxeoDocPermission {
 		ACP acpParent = docParent.fetchPermissions();
 		ACP acpDoc = doc.fetchPermissions();
 
-
+    
 		List<org.nuxeo.client.objects.acl.ACL> aclParentList=acpParent.getAcls();
 		List<org.nuxeo.client.objects.acl.ACL> aclDocList=acpDoc.getAcls();
 		
